@@ -50,7 +50,7 @@
   font-size: 50px;
 }
 
-.numbers {
+.buttons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +60,7 @@
   margin: 0 10px 10px 10px;
 }
 
-.numbers div {
+.buttons div {
   min-width: 80px;
   min-height: 80px;
   border: 1px solid black;
