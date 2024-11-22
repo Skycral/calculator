@@ -1,18 +1,17 @@
 //Calculator begins
-
 /* ----------------------------------------------------- */
-//First functions for basic math operators
+//basic math operators
 
-const add = (a, b) => {return a + b};
+const addition = (a, b) => {return a + b};
 const subtract = (a, b) => {return a - b};
 const divide = (a, b) => {return a / b};
 const multiply = (a, b) => {return a * b};
 
 //Function choosing what kind of operator needed
-const operate = function (op, a, b) {
+const operate = (a, b, op) => {
   switch (op) {
     case '+':
-      return add(a, b);
+      return addition(a, b);
     case '-':
       return subtract(a, b);
     case '/':
@@ -33,22 +32,19 @@ let operator;
 
 
 //Connecting to DOM
-
-//break up into different functions? One for for loop, one for switch statement?
-
 /* ----------------------------------------------------- */
 const input = document.querySelector(".input");
 const buttons = document.querySelectorAll(".buttons div");
 
-
-
-function inputValue() {
-  
-
+//Connecting input to display
+const inputValue = () => {
   for (const button of buttons) {
     button.addEventListener("click", (event) => {
       let name = event.target.className;
-      
+      console.log(input.value)
+      if (input.value === "0" || input.value === "+") {
+        input.value = "";
+      }
       switch (name) {
         case "n1":
           input.value += 1;
@@ -84,18 +80,62 @@ function inputValue() {
           input.value = 0;
           break;
         case "dot":
+          if([...input.value].includes(".")){
+            alert("This is not possible.")
+            break;
+          }
           input.value += ".";
         default:
           break;
       }
     })
   }
-  
-
-  
 }
 
 inputValue();
 
+//variables for operators
+const equalBtn = document.querySelector(".equal");
+const addBtn = document.querySelector(".add");
+const subBtn = document.querySelector(".sub");
+const multiBtn = document.querySelector(".multi");
+const divBtn = document.querySelector(".div");
+let tempNum;
+
+const addVar = addBtn.addEventListener("click", () => {
+  tempNum = input.value;
+  input.value = '+';
+  operator = '+';
+
+  assignNum();
+
+  if (firstNum !== undefined && secondNum !== undefined) {
+    console.log(+firstNum, +secondNum, operator);
+    console.log(operate(+firstNum, +secondNum, operator));
+    firstNum = operate(+firstNum, +secondNum, operator);
+    input.value = firstNum;
+  }
+})
+
+
 
 /* ----------------------------------------------------- */
+
+//Calculations
+/* ----------------------------------------------------- */
+
+
+
+function assignNum() {
+
+  if (firstNum !== undefined && secondNum === undefined) {
+    secondNum = tempNum;
+  } else {
+    firstNum = tempNum;
+  }
+  console.log(tempNum);
+  console.log(firstNum);
+  console.log(secondNum);
+}
+
+
