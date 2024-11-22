@@ -114,6 +114,7 @@ const addVar = addBtn.addEventListener("click", () => {
     console.log(operate(+firstNum, +secondNum, operator));
     firstNum = operate(+firstNum, +secondNum, operator);
     input.value = firstNum;
+    secondNum = undefined;
   }
 })
 
