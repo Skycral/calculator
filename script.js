@@ -78,6 +78,8 @@ const inputValue = () => {
           break;
         case "clear":
           input.value = 0;
+          firstNum = undefined;
+          secondNum = undefined;
           break;
         case "dot":
           if([...input.value].includes(".")){
