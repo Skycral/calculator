@@ -21,12 +21,13 @@ const operate = (a, b, op) => {
   } 
 }
 
-console.log(operate('/', 15, 4));
 
 //Variables to hold input from user
 let firstNum;
 let secondNum;
 let operator;
+let tempNum;
+let lastOps;
 
 /* ----------------------------------------------------- */
 
@@ -34,95 +35,141 @@ let operator;
 //Connecting to DOM
 /* ----------------------------------------------------- */
 const input = document.querySelector(".input");
-const buttons = document.querySelectorAll(".buttons div");
+const buttons = document.querySelectorAll(".num");
+const ops = document.querySelectorAll(".op");
 
 //Connecting input to display
-const inputValue = () => {
-  for (const button of buttons) {
-    button.addEventListener("click", (event) => {
-      let name = event.target.className;
-      console.log(input.value)
-      if (input.value === "0" || input.value === "+") {
-        input.value = "";
-      }
-      switch (name) {
-        case "n1":
-          input.value += 1;
+for (const button of buttons) {
+  button.addEventListener("click", (event) => {
+    let name = event.target.id;
+    console.log(input.value)
+    if (input.value == "0") {
+      input.value = "";
+      
+    } else if (operator !== undefined){
+      input.value = '';
+      console.log(firstNum);
+      console.log(secondNum);
+      addBtn.style.opacity = 1;
+      subBtn.style.opacity = 1;
+      multiBtn.style.opacity = 1;
+      divBtn.style.opacity = 1;
+      operator = undefined;
+    }
+    switch (name) {
+      case "n1":
+        input.value += +1;
+        break;
+      case "n2":
+        input.value += +2
+        break;
+      case "n3":
+        input.value += +3;
+        break;   
+      case "n4":
+        input.value += +4;
+        break;
+      case "n5":
+        input.value += +5;
+        break;  
+      case "n6":
+        input.value += +6;
+        break;
+      case "n7":
+        input.value += +7;
+        break;     
+      case "n8":
+        input.value += +8;
+        break;
+      case "n9":
+        input.value += +9;
+        break;
+      case "n0":
+        input.value += +0;
+        break;
+      case "clear":
+        firstNum = undefined;
+        secondNum = undefined;
+        tempNum = undefined;
+        input.value = +0;
+        break;
+      case "dot":
+        if([...input.value].includes(".")){
+          alert("This is not possible.")
           break;
-        case "n2":
-          input.value += 2
-          break;
-        case "n3":
-          input.value += 3;
-          break;   
-        case "n4":
-          input.value += 4;
-          break;
-        case "n5":
-          input.value += 5;
-          break;  
-        case "n6":
-          input.value += 6;
-          break;
-        case "n7":
-          input.value += 7;
-          break;     
-        case "n8":
-          input.value += 8;
-          break;
-        case "n9":
-          input.value += 9;
-          break;
-        case "n0":
-          input.value += 0;
-          break;
-        case "clear":
-          input.value = 0;
-          firstNum = undefined;
-          secondNum = undefined;
-          tempNum = undefined;
-          break;
-        case "dot":
-          if([...input.value].includes(".")){
-            alert("This is not possible.")
-            break;
-          }
-          input.value += ".";
-        default:
-          break;
-      }
-    })
-  }
+        }
+        input.value += ".";
+      default:
+        break;
+    }
+  })
 }
 
-inputValue();
 
 //variables for operators
-const equalBtn = document.querySelector(".equal");
-const addBtn = document.querySelector(".add");
-const subBtn = document.querySelector(".sub");
-const multiBtn = document.querySelector(".multi");
-const divBtn = document.querySelector(".div");
-let tempNum;
+const equalBtn = document.querySelector("#equal");
+const addBtn = document.querySelector("#add");
+const subBtn = document.querySelector("#sub");
+const multiBtn = document.querySelector("#multi");
+const divBtn = document.querySelector("#div");
 
-const addVar = addBtn.addEventListener("click", () => {
-  tempNum = input.value;
-  input.value = '+';
-  operator = '+';
 
-  assignNum();
 
-  if (firstNum !== undefined && secondNum !== undefined) {
-    console.log(+firstNum, +secondNum, operator);
-    console.log(operate(+firstNum, +secondNum, operator));
-    firstNum = operate(+firstNum, +secondNum, operator);
-    input.value = firstNum;
-    secondNum = undefined;
-  }
+for (const op of ops) {
+  op.addEventListener("click", (event) => {
+    let name = event.target.id;
+    console.log(input.value);
+    tempNum = +input.value;
 
-  tempNum = undefined;
-})
+    if (firstNum !== undefined && secondNum === undefined) {
+      secondNum = +tempNum;
+    } else {
+      firstNum = +tempNum;
+    }
+    
+    switch (name) {
+      case "div":
+        operator = '/';
+        lastOps = '/';
+        divBtn.style.opacity = 0.7;
+        assNum();
+        break;
+      case "add":
+        operator = '+';
+        lastOps = '+';
+        addBtn.style.opacity = 0.7;
+        assNum();
+        break;
+      case "multi":
+        operator = '*';
+        lastOps = '*';
+        multiBtn.style.opacity = 0.7;
+        assNum();
+        break;   
+      case "sub":
+        operator = '-';
+        lastOps = '-';
+        subBtn.style.opacity = 0.7;  
+        assNum();  
+        break;
 
+      case "equal":
+        console.log(lastOps, firstNum, secondNum);
+        firstNum = operate(firstNum, secondNum, lastOps);
+        input.value = firstNum;
+        secondNum = undefined;
+        tempNum = undefined;
+        
+        break;
+      default:
+        break;
+    }
+
+    // assNum();
+    
+
+  })
+}
 
 
 /* ----------------------------------------------------- */
@@ -130,18 +177,11 @@ const addVar = addBtn.addEventListener("click", () => {
 //Calculations
 /* ----------------------------------------------------- */
 
-
-
-function assignNum() {
-
-  if (firstNum !== undefined && secondNum === undefined) {
-    secondNum = tempNum;
-  } else {
-    firstNum = tempNum;
+function assNum() {
+  if (firstNum !== undefined && secondNum !== undefined) {
+    firstNum = operate(+firstNum, +secondNum, operator);
+    input.value = +firstNum;
+    secondNum = undefined;
   }
-  console.log(tempNum);
-  console.log(firstNum);
-  console.log(secondNum);
+  tempNum = undefined;
 }
-
-

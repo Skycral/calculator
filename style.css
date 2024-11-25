@@ -27,6 +27,9 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+
+  background-color: #296e7a;
+  
 }
 
 .display {
@@ -37,7 +40,6 @@
   align-items: center;
   height: 100px;
   width: 380px;
-  border: 1px solid black;
   margin-top: 10px;
 
 }
@@ -48,6 +50,7 @@
   margin: 10px;
   text-align: end;
   font-size: 50px;
+  border: 1px solid black;
 }
 
 .buttons {
@@ -68,10 +71,24 @@
   flex-direction: row;
   text-align: center;
   align-content: center;
+  
 }
 
-.clear {
+.num, .dot {
+  background-color: #cf9300;
+}
+
+.op {
+  background-color: #cf6400;
+}
+
+#equal {
+  background-color: #79cf00;
+}
+
+#clear {
   font-family: "Lato", serif;
   font-weight: 300;
   font-style: normal;
+  background-color: #00afcf;
 }
