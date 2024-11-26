@@ -23,9 +23,10 @@ const operate = (a, b, op) => {
 
 
 //Variables to hold input from user
+let operator = false;
+let result = false;
 let firstNum;
 let secondNum;
-let operator;
 let tempNum;
 let lastOps;
 
@@ -45,23 +46,22 @@ for (const button of buttons) {
     console.log(input.value)
     if (input.value == "0") {
       input.value = "";
-      
-    } else if (operator !== undefined){
-      input.value = '';
-      console.log(firstNum);
-      console.log(secondNum);
+  
+
+    } else if (operator === true){
+      input.value = "";
       addBtn.style.opacity = 1;
       subBtn.style.opacity = 1;
       multiBtn.style.opacity = 1;
       divBtn.style.opacity = 1;
-      operator = undefined;
+      operator = false;
     }
     switch (name) {
       case "n1":
         input.value += +1;
         break;
       case "n2":
-        input.value += +2
+        input.value += +2;
         break;
       case "n3":
         input.value += +3;
@@ -106,6 +106,8 @@ for (const button of buttons) {
 }
 
 
+
+
 //variables for operators
 const equalBtn = document.querySelector("#equal");
 const addBtn = document.querySelector("#add");
@@ -114,59 +116,57 @@ const multiBtn = document.querySelector("#multi");
 const divBtn = document.querySelector("#div");
 
 
-
 for (const op of ops) {
   op.addEventListener("click", (event) => {
-    let name = event.target.id;
-    console.log(input.value);
-    tempNum = +input.value;
-
-    if (firstNum !== undefined && secondNum === undefined) {
-      secondNum = +tempNum;
+    if (operator === true) {
+      alert("only one operator at a time");
     } else {
-      firstNum = +tempNum;
-    }
-    
-    switch (name) {
-      case "div":
-        operator = '/';
-        lastOps = '/';
-        divBtn.style.opacity = 0.7;
-        assNum();
-        break;
-      case "add":
-        operator = '+';
-        lastOps = '+';
-        addBtn.style.opacity = 0.7;
-        assNum();
-        break;
-      case "multi":
-        operator = '*';
-        lastOps = '*';
-        multiBtn.style.opacity = 0.7;
-        assNum();
-        break;   
-      case "sub":
-        operator = '-';
-        lastOps = '-';
-        subBtn.style.opacity = 0.7;  
-        assNum();  
-        break;
-
-      case "equal":
-        console.log(lastOps, firstNum, secondNum);
-        firstNum = operate(firstNum, secondNum, lastOps);
-        input.value = firstNum;
-        secondNum = undefined;
+      
+      let name = event.target.id;
+      tempNum = +input.value;
+  
+      if (firstNum !== undefined && secondNum === undefined && result === false) {
+        secondNum = +tempNum;
+      } else if (result === false) {
+        firstNum = +tempNum;
+      } else {
         tempNum = undefined;
+        result = false;
+      }
+  
+      assNum();
+  
+      
+      switch (name) {
+        case "div":
+          lastOps = '/';
+          divBtn.style.opacity = 0.7;
+          operator = true;
+          break;
+        case "add":
+          lastOps = '+';
+          addBtn.style.opacity = 0.7;
+          operator = true;
+          break;
+        case "multi":
+          lastOps = '*';
+          multiBtn.style.opacity = 0.7;
+          operator = true;
+          break;   
+        case "sub":
+          lastOps = '-';
+          subBtn.style.opacity = 0.7;  
+          operator = true;
+          break;
+        case "equal":
+          operator = false;
+          result = true;
+          lastOps = undefined;
+          break;
         
-        break;
-      default:
-        break;
-    }
+      }
 
-    // assNum();
-    
+    }
 
   })
 }
@@ -179,7 +179,7 @@ for (const op of ops) {
 
 function assNum() {
   if (firstNum !== undefined && secondNum !== undefined) {
-    firstNum = operate(+firstNum, +secondNum, operator);
+    firstNum = operate(+firstNum, +secondNum, lastOps).toFixed(3);
     input.value = +firstNum;
     secondNum = undefined;
   }
