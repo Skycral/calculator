@@ -163,11 +163,8 @@ for (const op of ops) {
           result = true;
           lastOps = undefined;
           break;
-        
       }
-
     }
-
   })
 }
 
@@ -179,9 +176,74 @@ for (const op of ops) {
 
 function assNum() {
   if (firstNum !== undefined && secondNum !== undefined) {
-    firstNum = operate(+firstNum, +secondNum, lastOps).toFixed(3);
+    firstNum = operate(+firstNum, +secondNum, lastOps).toFixed(2);
     input.value = +firstNum;
     secondNum = undefined;
   }
   tempNum = undefined;
 }
+
+
+//Keyboard Support
+window.addEventListener("keydown", (event) => {
+  let name = event.key;
+    console.log(input.value)
+    if (input.value == "0") {
+      input.value = "";
+  
+
+    } else if (operator === true){
+      input.value = "";
+      addBtn.style.opacity = 1;
+      subBtn.style.opacity = 1;
+      multiBtn.style.opacity = 1;
+      divBtn.style.opacity = 1;
+      operator = false;
+    }
+    switch (name) {
+      case "1":
+        input.value += +1;
+        break;
+      case "2":
+        input.value += +2;
+        break;
+      case "3":
+        input.value += +3;
+        break;   
+      case "4":
+        input.value += +4;
+        break;
+      case "5":
+        input.value += +5;
+        break;  
+      case "6":
+        input.value += +6;
+        break;
+      case "7":
+        input.value += +7;
+        break;     
+      case "8":
+        input.value += +8;
+        break;
+      case "9":
+        input.value += +9;
+        break;
+      case "0":
+        input.value += +0;
+        break;
+      case " ":
+        firstNum = undefined;
+        secondNum = undefined;
+        tempNum = undefined;
+        input.value = +0;
+        break;
+      case ".":
+        if([...input.value].includes(".")){
+          alert("This is not possible.")
+          break;
+        }
+        input.value += ".";
+      default:
+        break;
+    }
+  })
